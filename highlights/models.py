@@ -1,5 +1,4 @@
 import uuid
-from typing import Callable
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -36,6 +35,12 @@ class Highlight(TimeStampedModel):
     object_id = models.CharField(max_length=255)
     content_object = GenericForeignKey("content_type", "object_id")
 
+    def __str__(self):
+        return (
+            f"{self.content[:15]}... by {self.maker}"
+            or "No content in {self.id} by {self.maker}"
+        )
+
 
 class AbstractHighlightable(TitleSlugDescriptionModel, TimeStampedModel):
     content = models.TextField()
@@ -46,34 +51,30 @@ class AbstractHighlightable(TitleSlugDescriptionModel, TimeStampedModel):
     class Meta:
         abstract = True
 
+    @property
+    def get_highlight_url(self) -> str:
+        named_route = f"{self._meta.app_label}:{self._label}"
+        return reverse(named_route, args=(self.slug,))
+
     @classproperty
     def _label(cls) -> str:
         return f"highlight_{cls._meta.model_name}"
 
-    @property
-    def get_highlight_url(self) -> str:
-        return reverse(
-            f"{self._meta.app_label}:{self._label}", args=(self.slug,)
-        )
-
-    @classmethod
-    def set_highlight_path(
-        cls, endpoint_token: str, func_comment: Callable
-    ) -> URLPattern:
+    @classproperty
+    def highlight_path(cls) -> URLPattern:
         return path(
-            f"{cls._label}/{endpoint_token}", func_comment, name=cls._label
+            f"{cls._label}/<slug:slug>", cls._save_highlight, name=cls._label
         )
 
     @classmethod
-    def save_highlight(cls, request: HttpRequest, target_obj):
-
+    def _save_highlight(cls, request: HttpRequest, slug: str) -> HttpResponse:
         if not request.user.is_authenticated:  # required to highlight
             return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
 
         highlight = Highlight(
             content=request.POST.get("highlight"),
             maker=request.user,
-            content_object=target_obj,
+            content_object=cls.objects.get(slug=slug),
         )
         highlight.save()
 

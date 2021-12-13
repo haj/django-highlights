@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "django-highlights"
-version = "0.1.0"
-description = "Custom javascript for text selection and saving as highlight"
+version = "0.0.1"
+description = "Text selection and save as highlight."
 authors = ["Marcelino G. Veloso III <mars@veloso.one>"]
 readme = "README.md"
 

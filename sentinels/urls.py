@@ -6,7 +6,7 @@ from .models import Sentinel
 
 app_name = SentinelsConfig.name
 urlpatterns = [
-    Sentinel.add_highlight_path,
+    Sentinel.highlight_path,
     path(
         "detail/<slug:slug>",
         DetailView.as_view(

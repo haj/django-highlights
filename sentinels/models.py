@@ -17,12 +17,3 @@ class Sentinel(AbstractHighlightable):
 
     def get_absolute_url(self):
         return reverse(f"{self._meta.app_label}:detail", args=[self.slug])
-
-    @classmethod
-    def add_highlight_func(cls, request, slug: str) -> HttpResponse:
-        target_obj = cls.objects.get(slug=slug)
-        return cls.save_highlight(request, target_obj)
-
-    @classproperty
-    def add_highlight_path(cls) -> URLPattern:
-        return cls.set_highlight_path("<slug:slug>", cls.add_highlight_func)

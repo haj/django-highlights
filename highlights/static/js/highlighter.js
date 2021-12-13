@@ -7,6 +7,9 @@ var containerHighlight = document.getElementById("highlighter");
 // once the button is clicked, send the highlighted text to save
 var highlightBtn = document.getElementById("highlight-button");
 
+// container of highlight input
+var highlightInput = document.getElementById("selected-highlight");
+
 /**
  * This is the main highlighting function dependent on user selection of text.
  * - Whenever an "selection event" occurs in the `content-proper` text area, the #highlighter is hidden
@@ -70,6 +73,5 @@ function enableHighlighting() {
 
 function setHiddenInput(text) {
   console.log(`hidden input field set: ${text}`);
-  let hiddenInput = document.getElementById("selected-highlight");
-  hiddenInput.setAttribute("value", text); // set input
+  highlightInput.setAttribute("value", text); // set input
 }
