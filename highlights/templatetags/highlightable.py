@@ -3,7 +3,9 @@ from django import template
 register = template.Library()
 
 
-@register.inclusion_tag("highlights/skeletal_frame.html", takes_context=True)
+@register.inclusion_tag(
+    "highlights/highlightable_template.html", takes_context=True
+)
 def make_highlightable(
     context,
     scope: str,
