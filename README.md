@@ -6,16 +6,15 @@ Text selection and saving as generic relation Highlight on arbitrary models.
 
 ### Setup target
 
-Presumes a highlightable model, e.g. `Sentinel` with "highlightable" TextField, e.g. `content`, `description`, etc. characterized by a `AbstractHighlightable` abstract base model.
+With an arbirary model, e.g. `Sentinel`, with a _unique_ `slug` and a target TextField, e.g. `content`, `description` that is desired to be _highlightable_, drop in `AbstractHighlightable` mixin:
 
 ```python
 from django_extensions.db.models import TitleSlugDescriptionModel
 class Sentinel(TitleSlugDescriptionModel, AbstractHighlightable):
-      """Presumption: Concrete model will make use of `title`, `slug` and a content-based TextField, e.g. `description`. The `slug` must be unique. Each sentinel instance will now have a generic relations to a `Highlight` model and a pre-named `highlight_url`."""
-      ...# In this case, the `description` can be used as an example TextField
+      pass
 ```
 
-The mixin auto-generates a slug-based `highlight_url` connected to a POST-based `save_highlight` view function.
+Each `Sentinel` instance, i.e. pk=1, pk=2, etc., will now have generic relations to a `Highlight` model and have access to a pre-named, `slug`-based `highlight_url`.
 
 ### Use templatetag
 
@@ -23,11 +22,13 @@ The `highlight_url` and appropriate textfield of the highlightable model instanc
 
 ```jinja
 <!-- sentinels/templates/sentinel_detail.html -->
-{% load highlightable %}
-{% make_highlightable scope=object.description url=object.highlight_url %} <!-- Assume object refers to the target model -->
+{% load highlightable %} <!-- e.g. obj refers to the target model -->
+{% make_highlightable scope=obj.description url=obj.highlight_url %}
 ```
 
-## How {% make_highlightable %} works
+A POST request sent to this url leads to the `save_highlight` view, adding a new `Highlight` from an authenticated highlight`maker` to the target highlightable, e.g. Sentinel pk=2.
+
+## Flow
 
 1. The `make_highlightable` templatetag produces an overridable template.
 2. The template contains pre-id'ed `<article id='x'>` and `<footer id='y'>` html tags.
