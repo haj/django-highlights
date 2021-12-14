@@ -37,12 +37,12 @@ The `highlight_url` and appropriate textfield of the highlightable model instanc
 ## Flow
 
 1. The `make_highlightable` templatetag produces an overridable template.
-2. The template contains pre-id'ed `<article id='x'>` and `<footer id='y'>` html tags.
-3. The html tags are associated event listeners preconfigured by a loaded custom `highlighter.js`.
-4. The `<article>` tag will contain the `scope` or the highlightable text field.
-5. The `<footer>` will contain the `url` or the submission of highlights to the server.
-6. With this setup, any text selection made inside the `<article>` will reflect in the `<footer>`.
-7. When the highlight `maker` is ready with a proper text selection, can click on the button in the footer to submit the highlight.
-8. A POST request is sent to the `save_highlight` view, adding a new `Highlight` from an authenticated highlight `maker` to the target highlightable, e.g. Sentinel pk=2.
-9. The submission is done through `htmx`'s `hx-post` without refreshing or swapping content.
-10. A successful submission results in the creation of a new `Highlight` made by an authenticated `maker` and a trigger to the client to alert the `maker` (via `notyf.js` in tandem with `hyperscript`).
+2. The template contains pre-id'ed html tags: `<article id='x'>` and `<footer id='y'>`
+3. The `<article>` tag will contain the `scope` or the highlightable text field.
+4. The `<footer>` will contain the `url` or the submission of highlights to the server.
+5. The tags have event listeners sourced from `textSelector.js`.
+6. Any text selection inside the `<article>` will reflect in the `<footer>`'s hidden `<input>`.
+7. When highlight `maker` is ready with text selection, click on footer `<button>` submits highlight stored in `<input>`.
+8. The submission is done through `htmx`'s `hx-post` without refreshing or swapping content, i.e. a POST request is sent to the `save_highlight` view c/o the passed `highlight_url`.
+9. The request adds a new `Highlight` (from an authenticated highlight `maker`) to the highlightable model instance, e.g. Sentinel pk=2.
+10. The addition sends a header trigger to the client to alert the `maker` (via `notyf.js` in tandem with `hyperscript`) that the highlight was successful.
