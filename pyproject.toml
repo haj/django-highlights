@@ -1,10 +1,14 @@
 [tool.poetry]
 name = "django-highlights"
 version = "0.0.1"
-description = "Text selection and save as highlight."
+description = "Text selection and save as highlight via htmx"
 authors = ["Marcelino G. Veloso III <mars@veloso.one>"]
 readme = "README.md"
-
+repository = "https://github.com/justmars/django-highlights"
+license = "MIT"
+packages = [
+    { include = "highlights" }, # because 'django-highlights' as package name differs from 'highlights' app directory
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
