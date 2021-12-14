@@ -4,22 +4,21 @@
 <footer id="footer-container">
     <center>
         <form>
-            <input id='selected-highlight' type='text' name='highlight' value="" style="display: none;">
+            <input id='selected-highlight' type='text' name='highlight' style="display: none;">
             <button id="highlight-button" hx-post="{{save_highlight_url}}" hx-swap="none" disabled _="
                 on highlightSaved
-                    log 'highlight detected' then
                     add [@hidden='true'] to #footer-container then
                     js
                         let notyf = new Notyf();
-                        notyf.success('Highlight saved!')
+                        notyf.success('Highlight saved!');
                         removeSelected();
-                    end"
+                    end
+                "
                 >Save Highlight
             </button>
         </form>
     </center>
 </footer>
-
 {% block extra_js %}
     {% load static %}
     <script>
