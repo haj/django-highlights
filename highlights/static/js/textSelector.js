@@ -1,18 +1,6 @@
-// useful for limiting highlighting on the target node
-var targetContainer = document.getElementById("content-proper");
-
-// holds the highlightBtn: disappears and reappears
-var containerHighlight = document.getElementById("highlighter");
-
-// once the button is clicked, send the highlighted text to save
-var highlightBtn = document.getElementById("highlight-button");
-
-// container of highlight input
-var highlightInput = document.getElementById("selected-highlight");
-
 /**
  * This is the main highlighting function dependent on user selection of text.
- * - Whenever an "selection event" occurs in the `content-proper` text area, the #highlighter is hidden
+ * - Whenever an "selection event" occurs in the `highlightable` text area, the #highlighter is hidden
  * - If the "selection event" results in a highlight selected, the #highlighter is made visible
  * - The `input` in a form is filled up with the highlight selected (this is set by `setHighlightInput`).
  * - The `input` is submitted when the user clicks on the button.
@@ -20,7 +8,7 @@ var highlightInput = document.getElementById("selected-highlight");
  */
 document.onselectionchange = () => {
   disableHighlighting(); // disabled attributed added, form button hidden
-  let textHighlighted = getSelectedText(targetContainer);
+  let textHighlighted = getSelectedText(highlightScope);
   if (!textHighlighted) return; // checks if highlight is allowed
   setHiddenInput(textHighlighted); // set the value on the hidden field of the form
   enableHighlighting(); // disabled attribute is removed, form button shown
@@ -60,14 +48,14 @@ function getSelectedText(target) {
 
 function disableHighlighting() {
   console.log("initially prevent highlighting");
-  containerHighlight.setAttribute("hidden", true);
+  footerContainer.setAttribute("hidden", true);
   highlightBtn.setAttribute("disabled", true);
 }
 
 function enableHighlighting() {
   console.log("highlighting allowed");
-  containerHighlight.className = ""; // show
-  containerHighlight.removeAttribute("hidden");
+  footerContainer.className = ""; // show
+  footerContainer.removeAttribute("hidden");
   highlightBtn.removeAttribute("disabled");
 }
 

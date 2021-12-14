@@ -1,41 +1,20 @@
-
-<article id="content-proper">
+<article id="highlightable">
     {{highlightable_content}}
 </article>
-<footer id="highlighter">
+<footer id="footer-container">
     <center>
         <form>
-            <input
-                type='text'
-                id='selected-highlight'
-                name='highlight'
-                value=""
-                style="display: none;"
-            >
-            <button
-                id="highlight-button"
-                hx-post="{{save_highlight_url}}"
-                hx-swap="none"
-                disabled
-                _="
+            <input id='selected-highlight' type='text' name='highlight' value="" style="display: none;">
+            <button id="highlight-button" hx-post="{{save_highlight_url}}" hx-swap="none" disabled _="
                 on highlightSaved
                     log 'highlight detected' then
-                    add [@hidden='true'] to #highlighter then
+                    add [@hidden='true'] to #footer-container then
                     js
                         let notyf = new Notyf();
                         notyf.success('Highlight saved!')
-                        if (window.getSelection) {
-                            if (window.getSelection().empty) {  // Chrome
-                              window.getSelection().empty();
-                            } else if (window.getSelection().removeAllRanges) {  // Firefox
-                              window.getSelection().removeAllRanges();
-                            }
-                        } else if (document.selection) {  // IE?
-                            document.selection.empty();
-                        }
-                    end
-                "
-            >Save Highlight
+                        removeSelected();
+                    end"
+                >Save Highlight
             </button>
         </form>
     </center>
@@ -43,5 +22,12 @@
 
 {% block extra_js %}
     {% load static %}
-    <script type="text/javascript" src="{% static 'js/highlighter.js' %}"></script>
+    <script>
+        const highlightScope = document.getElementById("highlightable"); //  only allow highlighting within
+        const highlightBtn = document.getElementById("highlight-button"); // holds hx-post for submit
+        const highlightInput = document.getElementById("selected-highlight"); // hidden input stored here
+        const footerContainer = document.getElementById("footer-container"); //  container of button and input
+    </script>
+    <script type="text/javascript" src="{% static 'js/textSelector.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/removeSelected.js' %}"></script>
 {% endblock extra_js %}
