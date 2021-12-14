@@ -7,6 +7,7 @@
             {% load static %}
             <link rel="stylesheet" type="text/css" href="{% static 'css/starter.css' %}">
             <link rel="stylesheet" href="https://unpkg.com/pyloncss@latest/css/pylon.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
         {% endblock custom_css %}
     </head>
     <body>
@@ -16,6 +17,7 @@
             {% block content %}
             {% endblock content %}
             {% block base_js %}
+                <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
                 <script src="https://unpkg.com/htmx.org@1.6.1"></script>
                 <script src="https://unpkg.com/hyperscript.org@0.9.0"></script>
                 <script>document.body.addEventListener("htmx:configRequest", (e) => {e.detail.headers["X-CSRFToken"] = "{{ csrf_token }}";});</script>

@@ -6,3 +6,4 @@ from .models import Sentinel
 @admin.register(Sentinel)
 class SentinelAdmin(admin.ModelAdmin):
     list_per_page = 10
+    list_display = ("title", "slug")

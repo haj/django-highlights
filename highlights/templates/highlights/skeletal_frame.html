@@ -15,9 +15,16 @@
             <button
                 id="highlight-button"
                 hx-post="{{save_highlight_url}}"
-                hx-target="#highlighter"
                 hx-swap="none"
                 disabled
+                _="
+                on highlightSaved
+                    log 'highlight detected'
+                    js
+                        let notyf = new Notyf();
+                        notyf.success('Highlight saved!')
+                    end
+                "
             >Save Highlight
             </button>
         </form>

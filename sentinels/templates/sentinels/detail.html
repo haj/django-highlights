@@ -3,6 +3,6 @@
     <h1>Title: {{ object.title }}</h1>
     <main>
         {% load highlightable %}
-        {% make_highlightable content=object.content url=object.get_highlight_url %}
+        {% make_highlightable scope=object.description url=object.highlight_url %}
     </main>
 {% endblock content %}

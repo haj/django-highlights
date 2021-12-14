@@ -12,22 +12,23 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.urls import URLPattern, path, reverse
 from django.utils.functional import classproperty
-from django_extensions.db.models import (
-    TimeStampedModel,
-    TitleSlugDescriptionModel,
-)
+from django_extensions.db.fields import AutoSlugField
+from django_extensions.db.models import TimeStampedModel
 
 
 class Highlight(TimeStampedModel):
     """The `AbstractHighlightable` model has a highlights field which map to this model."""
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     # main fields
-    content = models.TextField()
-    is_public = models.BooleanField(default=False)
+    content = models.TextField(editable=False)
+    is_public = models.BooleanField(default=False, editable=False)
     maker = models.ForeignKey(
-        get_user_model(), on_delete=models.PROTECT, related_name="highlights"
+        get_user_model(),
+        on_delete=models.PROTECT,
+        related_name="highlights",
+        editable=False,
     )
 
     # generic fk base, uses CharField to accomodate sentinel models with UUID as primary key
@@ -42,8 +43,7 @@ class Highlight(TimeStampedModel):
         )
 
 
-class AbstractHighlightable(TitleSlugDescriptionModel, TimeStampedModel):
-    content = models.TextField()
+class AbstractHighlightable(models.Model):
     highlights = GenericRelation(
         Highlight, related_query_name="%(app_label)s_%(class)ss"
     )
@@ -51,19 +51,25 @@ class AbstractHighlightable(TitleSlugDescriptionModel, TimeStampedModel):
     class Meta:
         abstract = True
 
-    @property
-    def get_highlight_url(self) -> str:
-        named_route = f"{self._meta.app_label}:{self._label}"
-        return reverse(named_route, args=(self.slug,))
-
     @classproperty
-    def _label(cls) -> str:
+    def _highlight_label(cls) -> str:
         return f"highlight_{cls._meta.model_name}"
+
+    @property
+    def highlight_url(self) -> str:
+        """Each inheriting model instance will have its own `@highlight_url`."""
+        return reverse(
+            f"{self._meta.app_label}:{self._highlight_label}",
+            args=(self.slug,),
+        )
 
     @classproperty
     def highlight_path(cls) -> URLPattern:
+        """Note `name` of path and relation to each instance's `highlight_url`. Each inheriting model will have access to the `highlight_url`, provided it's added to the namespaced `urlpatterns`."""
         return path(
-            f"{cls._label}/<slug:slug>", cls._save_highlight, name=cls._label
+            f"{cls._highlight_label}/<slug:slug>",
+            cls._save_highlight,
+            name=cls._highlight_label,
         )
 
     @classmethod
