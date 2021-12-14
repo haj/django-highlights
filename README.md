@@ -4,13 +4,21 @@ Text selection and saving as generic relation Highlight on arbitrary models.
 
 ## Configuration
 
-### Setup target
+### Initialize model
 
-With an arbirary model, e.g. `Sentinel`, with a _unique_ `slug` and a target TextField, e.g. `content`, `description` that is desired to be _highlightable_, drop in `AbstractHighlightable` mixin:
+Ensure model, e.g. `Sentinel`, with:
+
+1. a _unique_ SlugField named `slug` - this will be used for creating the `highlight url`
+2. a TextField, e.g. `content`/`description` - this is the field that will be _highlightable_
+
+### Add mixin
+
+Make the initialized model inherit from the `AbstractHighlightable` abstract base model :
 
 ```python
 from django_extensions.db.models import TitleSlugDescriptionModel
-class Sentinel(TitleSlugDescriptionModel, AbstractHighlightable):
+from highlights.models import AbstractHighlightable # import
+class Sentinel(TitleSlugDescriptionModel, AbstractHighlightable): # add
       pass
 ```
 
@@ -22,11 +30,9 @@ The `highlight_url` and appropriate textfield of the highlightable model instanc
 
 ```jinja
 <!-- sentinels/templates/sentinel_detail.html -->
-{% load highlightable %} <!-- e.g. obj refers to the target model -->
-{% make_highlightable scope=obj.description url=obj.highlight_url %}
+{% load highlightable %} <!-- e.g. imagine a target model named sentinel -->
+{% make_highlightable scope=sentinel.description url=sentinel.highlight_url %}
 ```
-
-A POST request sent to this url leads to the `save_highlight` view, adding a new `Highlight` from an authenticated highlight`maker` to the target highlightable, e.g. Sentinel pk=2.
 
 ## Flow
 
@@ -37,5 +43,6 @@ A POST request sent to this url leads to the `save_highlight` view, adding a new
 5. The `<footer>` will contain the `url` or the submission of highlights to the server.
 6. With this setup, any text selection made inside the `<article>` will reflect in the `<footer>`.
 7. When the highlight `maker` is ready with a proper text selection, can click on the button in the footer to submit the highlight.
-8. The submission is done through `htmx`'s `hx-post` without refreshing or swapping content.
-9. A successful submission results in the creation of a new `Highlight` made by an authenticated `maker` and a trigger to the client to alert the `maker` (via `notyf.js` in tandem with `hyperscript`)
+8. A POST request is sent to the `save_highlight` view, adding a new `Highlight` from an authenticated highlight `maker` to the target highlightable, e.g. Sentinel pk=2.
+9. The submission is done through `htmx`'s `hx-post` without refreshing or swapping content.
+10. A successful submission results in the creation of a new `Highlight` made by an authenticated `maker` and a trigger to the client to alert the `maker` (via `notyf.js` in tandem with `hyperscript`).
