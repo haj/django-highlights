@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "highlights",
     "sentinels",
 ]
-INTERNAL_IPS: list[str] = ["127.0.0.1"]  # required by debug_toolbar
+INTERNAL_IPS = ["127.0.0.1"]  # required by debug_toolbar
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
