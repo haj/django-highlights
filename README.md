@@ -2,6 +2,30 @@
 
 Text selection and saving as generic relation Highlight on arbitrary models.
 
+## Setup
+
+### Install
+
+```zsh
+.venv> poetry add django-highlights # pip3 install django-highlights
+```
+
+### Add app to project settings
+
+```python
+# in project_folder/settings.py
+INSTALLED_APPS = [
+    ...,
+    'highlights'
+]
+```
+
+### Add highlight model to database
+
+```zsh
+.venv> python manage.py migrate
+```
+
 ## Configuration
 
 ### Initialize model
@@ -22,7 +46,21 @@ class Sentinel(TitleSlugDescriptionModel, AbstractHighlightable): # add
       pass
 ```
 
-Each `Sentinel` instance, i.e. pk=1, pk=2, etc., will now have generic relations to a `Highlight` model and have access to a pre-named, `slug`-based `highlight_url`.
+Each `Sentinel` instance, i.e. pk=1, pk=2, etc., will now have generic relations to a `Highlight` model and have access to a pre-named, `slug`-based `highlight_url`. The `Sentinel` class will now have a `@highlight_path` property to be used in `urlpatterns` so that each instances `highlight_url` is recognized by the project.
+
+### Setup url
+
+```python
+# sentinels/urls.py
+from .apps import SentinelsConfig # already built when you previously created `sentinels` via python manage.py startapp sentinels
+from .models import Sentinel
+
+app_name = SentinelsConfig.name # new
+urlpatterns = [
+    Sentinel.highlight_path, # new
+    ...
+]
+```
 
 ### Use templatetag
 
