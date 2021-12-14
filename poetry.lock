@@ -211,6 +211,17 @@ python-versions = ">=3.6"
 Django = ">=2.2"
 
 [[package]]
+name = "djhtml"
+version = "1.4.10"
+description = "Django/Jinja template indenter"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.extras]
+dev = ["black", "flake8", "isort", "nox", "pre-commit"]
+
+[[package]]
 name = "entrypoints"
 version = "0.3"
 description = "Discover and load entry points from installed packages."
@@ -824,7 +835,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "237216d0ae87f04752a37950e75ac0038a136be2206fcdfc5c77348ea09bec6b"
+content-hash = "7d3ba443209ba08ead25b996cf81121ef028424cbb7aceb4da0ab51c5f6238f4"
 
 [metadata.files]
 appnope = [
@@ -1028,6 +1039,9 @@ django-debug-toolbar = [
 django-extensions = [
     {file = "django-extensions-3.1.5.tar.gz", hash = "sha256:28e1e1bf49f0e00307ba574d645b0af3564c981a6dfc87209d48cb98f77d0b1a"},
     {file = "django_extensions-3.1.5-py3-none-any.whl", hash = "sha256:9238b9e016bb0009d621e05cf56ea8ce5cce9b32e91ad2026996a7377ca28069"},
+]
+djhtml = [
+    {file = "djhtml-1.4.10.tar.gz", hash = "sha256:8575a10d17774eb261a5e756aeb847f6a592001aa3e4dcd3c23d88e6874407c7"},
 ]
 entrypoints = [
     {file = "entrypoints-0.3-py2.py3-none-any.whl", hash = "sha256:589f874b313739ad35be6e0cd7efde2a4e9b6fea91edcc34e58ecbb8dbe56d19"},

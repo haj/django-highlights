@@ -5,14 +5,14 @@
             <input id='selected-highlight' type='text' name='highlight' style="display: none;">
             <button id="highlight-button" hx-post="{{save_highlight_url}}" hx-swap="none" disabled _="
                 on highlightSaved
-                    add [@hidden='true'] to #footer-container then
-                    js
-                        let notyf = new Notyf();
-                        notyf.success('Highlight saved!');
-                        removeSelected();
-                    end
+                add [@hidden='true'] to #footer-container then
+                js
+                let notyf = new Notyf();
+                notyf.success('Highlight saved!');
+                removeSelected();
+                end
                 "
-                >Save Highlight
+            >Save Highlight
             </button>
         </form>
     </center>
