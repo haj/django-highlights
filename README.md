@@ -1,6 +1,9 @@
 # django-highlights
 
-Add a generic relation `Highlight` to arbitrary models. Text _selection_ is done with custom javascript but _saving_ the snippet (without page refresh) is done with `htmx` with a dash of `hyperscript` for dealing with the return trigger.
+Add a generic relation `Highlight` to arbitrary models.
+
+1. Selecting the highlight is done with custom javascript.
+2. Saving the highlightted snippet (without page refresh) is done with `htmx` with a dash of `hyperscript` for dealing with the return trigger.
 
 ## Setup
 
