@@ -40,8 +40,6 @@ jobs:
           POETRY_VIRTUALENVS_CREATE: false
       - name: Install Python Dependencies
         run: poetry install
-      - name: Apply migrations
-        run: poetry run python manage.py migrate
       - name: Add Staticfiles
         run: poetry run python manage.py collectstatic --noinput
       - name: Test with Pytest
