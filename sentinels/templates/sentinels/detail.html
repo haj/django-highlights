@@ -4,10 +4,11 @@
     <main class="container">
         <h1>Title: {{ object.title }}</h1>
         <article id="highlightable">
-            {{object.description}}
+            {% lorem 5 p random %}
         </article>
     </main>
     {% if user.is_authenticated %}
-        {% include 'highlights/footer.html' with save_highlight_url=object.highlight_url %}
+        {% load highlighter %}
+        {% highlight_btn_show url=object.highlight_url %}
     {% endif %}
 {% endblock content %}

@@ -65,7 +65,7 @@ urlpatterns = [
 ]
 ```
 
-### Use specific tag / ids
+### Use article id with highighter
 
 ```jinja
 <!-- sentinels/templates/sentinel_detail.html -->
@@ -76,7 +76,8 @@ urlpatterns = [
     </article>
 </main>
 {% if user.is_authenticated %}
-    {% include 'highlights/footer.html' with save_highlight_url=object.highlight_url %} <!-- url -->
+    {% load highlighter %}
+    {% highlight_btn_show url=object.highlight_url %}
 {% endif %}
 ```
 
