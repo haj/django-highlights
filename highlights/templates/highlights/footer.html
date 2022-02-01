@@ -1,9 +1,8 @@
-<article id="highlightable">{{highlightable_content}}</article>
-<footer id="footer-container">
+<footer id="footer-container" class="fixed-bottom footer mt-auto py-3 bg-light" hidden>
     <center>
         <form>
             <input id='selected-highlight' type='text' name='highlight' style="display: none;">
-            <button id="highlight-button" hx-post="{{save_highlight_url}}" hx-swap="none" disabled _="
+            <button id="highlight-button" class="btn btn-lg btn-outline-primary" hx-post="{{save_highlight_url}}" hx-swap="none" disabled _="
                 on highlightSaved
                 add [@hidden='true'] to #footer-container then
                 js
@@ -17,6 +16,7 @@
         </form>
     </center>
 </footer>
+
 {% block extra_js %}
     {% load static %}
     <script>

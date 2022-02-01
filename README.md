@@ -65,14 +65,19 @@ urlpatterns = [
 ]
 ```
 
-### Use templatetag
-
-The `highlight_url` and appropriate textfield of the highlightable model instance need to be passed to a `make_highlightable` templatetag in the highlightable model's "DetailView" template.
+### Use specific tag / ids
 
 ```jinja
 <!-- sentinels/templates/sentinel_detail.html -->
-{% load highlightable %} <!-- e.g. imagine a target model named sentinel -->
-{% make_highlightable scope=sentinel.description url=sentinel.highlight_url %}
+<main class="container">
+    <h1>Title: {{ object.title }}</h1>
+    <article id="highlightable"> <!-- article id -->
+        {{object.description}}
+    </article>
+</main>
+{% if user.is_authenticated %}
+    {% include 'highlights/footer.html' with save_highlight_url=object.highlight_url %} <!-- url -->
+{% endif %}
 ```
 
 ## Flow

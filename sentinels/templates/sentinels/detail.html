@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
+
 {% block content %}
-    <h1>Title: {{ object.title }}</h1>
-    <main>
-        {% load highlightable %}
-        {% make_highlightable scope=object.description url=object.highlight_url %}
+    <main class="container">
+        <h1>Title: {{ object.title }}</h1>
+        <article id="highlightable">
+            {{object.description}}
+        </article>
     </main>
+    {% if user.is_authenticated %}
+        {% include 'highlights/footer.html' with save_highlight_url=object.highlight_url %}
+    {% endif %}
 {% endblock content %}
