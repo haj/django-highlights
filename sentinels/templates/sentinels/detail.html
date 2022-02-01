@@ -8,6 +8,14 @@
         </article>
     </main>
     {% if user.is_authenticated %}
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+            <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body">
+                    <span class="me-auto">Highlight added!</span>
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
         {% load highlighter %}
         {% highlight_btn_show url=object.highlight_url %}
     {% endif %}
