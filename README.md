@@ -17,10 +17,7 @@ Add a generic relation `Highlight` to arbitrary models.
 
 ```python
 # in project_folder/settings.py
-INSTALLED_APPS = [
-    ...,
-    'highlights'
-]
+INSTALLED_APPS = [..., "highlights"]
 ```
 
 ### Add highlight model to database
@@ -44,9 +41,11 @@ Make the initialized model inherit from the `AbstractHighlightable` abstract bas
 
 ```python
 from django_extensions.db.models import TitleSlugDescriptionModel
-from highlights.models import AbstractHighlightable # import
-class Sentinel(TitleSlugDescriptionModel, AbstractHighlightable): # add
-      pass
+from highlights.models import AbstractHighlightable  # import
+
+
+class Sentinel(TitleSlugDescriptionModel, AbstractHighlightable):  # add
+    pass
 ```
 
 Each `Sentinel` instance, i.e. pk=1, pk=2, etc., will now have generic relations to a `Highlight` model and have access to a pre-named, `slug`-based `highlight_url`. The `Sentinel` class will now have a `@highlight_path` property to be used in `urlpatterns` so that each instances `highlight_url` is recognized by the project.
@@ -55,14 +54,13 @@ Each `Sentinel` instance, i.e. pk=1, pk=2, etc., will now have generic relations
 
 ```python
 # sentinels/urls.py
-from .apps import SentinelsConfig # already built when you previously created `sentinels` via python manage.py startapp sentinels
+from .apps import (
+    SentinelsConfig,
+)  # already built when you previously created `sentinels` via python manage.py startapp sentinels
 from .models import Sentinel
 
-app_name = SentinelsConfig.name # new
-urlpatterns = [
-    Sentinel.highlight_path, # new
-    ...
-]
+app_name = SentinelsConfig.name  # new
+urlpatterns = [Sentinel.highlight_path, ...]  # new
 ```
 
 ### Use article id with highighter and notice

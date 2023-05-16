@@ -8,7 +8,10 @@ from highlights.models import AbstractHighlightable
 
 
 class Sentinel(TitleSlugDescriptionModel, AbstractHighlightable):
-    """Presumption: Concrete model will make use of `title`, `slug` and a content-based TextField. The `slug` must be unique. Each sentinel instance will now have a generic relations to a `Highlight` model and a pre-named `highlight_url`."""
+    """Presumption: Concrete model will make use of `title`, `slug` and a content-based
+    TextField. The `slug` must be unique. Each sentinel instance will now have a generic
+    relations to a `Highlight` model and a pre-named `highlight_url`.
+    """
 
     ...
 

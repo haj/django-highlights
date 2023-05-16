@@ -9,9 +9,7 @@ urlpatterns = [
     Sentinel.highlight_path,
     path(
         "detail/<slug:slug>",
-        DetailView.as_view(
-            model=Sentinel, template_name="sentinels/detail.html"
-        ),
+        DetailView.as_view(model=Sentinel, template_name="sentinels/detail.html"),
         name="detail",
     ),
     path(

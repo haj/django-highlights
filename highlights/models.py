@@ -17,7 +17,8 @@ from django_extensions.db.models import TimeStampedModel
 
 
 class Highlight(TimeStampedModel):
-    """The `AbstractHighlightable` model has a highlights field which map to this model."""
+    """The `AbstractHighlightable` model has a highlights field which map
+    to this model."""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
@@ -31,7 +32,8 @@ class Highlight(TimeStampedModel):
         editable=False,
     )
 
-    # generic fk base, uses CharField to accomodate sentinel models with UUID as primary key
+    # generic fk base, uses CharField to accomodate sentinel models
+    # with UUID as primary key
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.CharField(max_length=255)
     content_object = GenericForeignKey("content_type", "object_id")
@@ -65,7 +67,10 @@ class AbstractHighlightable(models.Model):
 
     @classproperty
     def highlight_path(cls) -> URLPattern:
-        """Note `name` of path and relation to each instance's `highlight_url`. Each inheriting model will have access to the `highlight_url`, provided it's added to the namespaced `urlpatterns`."""
+        """Note `name` of path and relation to each instance's `highlight_url`.
+        Each inheriting model will have access to the `highlight_url`, provided it's
+        added to the namespaced `urlpatterns`.
+        """
         return path(
             f"{cls._highlight_label}/<slug:slug>",
             cls._save_highlight,
