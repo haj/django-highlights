@@ -1,9 +1,8 @@
 [tool.poetry]
 name = "django-highlights"
-version = "0.0.8"
+version = "0.0.9"
 description = "Text selection and save as highlight via htmx"
 authors = ["Marcelino G. Veloso III <mars@veloso.one>"]
-readme = "README.md"
 repository = "https://github.com/justmars/django-highlights"
 license = "MIT"
 packages = [
