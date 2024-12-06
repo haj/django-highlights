@@ -1,4 +1,4 @@
 asgiref
-backports.zoneinfo==0.2.1; python_version < "3.9" and python_version >= "3.8"
+backports.zoneinfo
 django-extensions
 sqlparse
